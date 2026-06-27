@@ -1,4 +1,5 @@
 package com.abhisek.airportsimulator.threads;
+private volatile boolean running = true;
 import com.abhisek.airportsimulator.model.Flight;
 import com.abhisek.airportsimulator.service.AirportService;
 
