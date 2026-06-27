@@ -19,6 +19,23 @@ public class AirportController {
         this.airportService = airportService;
     }
 
+    @PostMapping("/start")
+    public String startSimulation() {
+
+        airportService.startSimulation();
+
+        return "Simulation Started";
+
+    }
+
+    @PostMapping("/stop")
+    public String stopSimulation() {
+
+        airportService.stopSimulation();
+
+        return "Simulation Stopped";
+
+    }
     @GetMapping("/waiting")
     public PriorityQueue<Flight> getWaitingFlights() {
         return airportService.getRunwayQueue();
