@@ -34,6 +34,9 @@ public class FlightGenerator implements Runnable {
                 e.printStackTrace();
             }
             }
+        public void stopGenerator(){
+            running=false;
+        }
             // Thread t = new Thread(new FlightGenerator(airportService));
             //t.start();
             //String flightId = "AD" + count++;
