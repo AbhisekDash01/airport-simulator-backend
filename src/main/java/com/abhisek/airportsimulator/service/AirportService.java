@@ -13,6 +13,30 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.PriorityQueue;
 
+public synchronized void startSimulation() {
+
+    if (generatorThread != null && generatorThread.isAlive()) {
+        return;
+    }
+
+    flightGenerator = new FlightGenerator(this);
+
+    generatorThread = new Thread(flightGenerator);
+
+    generatorThread.start();
+
+}
+
+public synchronized void stopSimulation() {
+
+    if (flightGenerator != null) {
+
+        flightGenerator.stopGenerator();
+
+    }
+
+}
+
 @Service
 public class AirportService {
     private PriorityQueue<Flight> runwayQueue = new PriorityQueue<>(Comparator.comparingInt(Flight::getPriority));
