@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.PriorityQueue;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
 @CrossOrigin(origins = "*")
 @RestController
 public class AirportController {
