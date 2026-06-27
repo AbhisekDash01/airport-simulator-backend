@@ -1,11 +1,8 @@
 package com.abhisek.airportsimulator.service;
-private Thread generatorThread;
-private FlightGenerator flightGenerator;
-
-import com.abhisek.airportsimulator.threads.FlightGenerator;
 
 //Added
 import com.abhisek.airportsimulator.model.Flight;
+import com.abhisek.airportsimulator.threads.FlightGenerator;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -13,37 +10,18 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.PriorityQueue;
 
-public synchronized void startSimulation() {
-
-    if (generatorThread != null && generatorThread.isAlive()) {
-        return;
-    }
-
-    flightGenerator = new FlightGenerator(this);
-
-    generatorThread = new Thread(flightGenerator);
-
-    generatorThread.start();
-
-}
-
-public synchronized void stopSimulation() {
-
-    if (flightGenerator != null) {
-
-        flightGenerator.stopGenerator();
-
-    }
-
-}
-
 @Service
 public class AirportService {
+
+    private Thread generatorThread;
+    private FlightGenerator flightGenerator;
+
     private PriorityQueue<Flight> runwayQueue = new PriorityQueue<>(Comparator.comparingInt(Flight::getPriority));
 
     /* {
          Comparator.comparingInt(Flight::getPriority);
      }*/
+
     private ArrayList<Flight> completedFlights = new ArrayList<>();
 
     private HashMap<String, Flight> flightMap = new HashMap<>();
@@ -64,35 +42,76 @@ public class AirportService {
          }
 
      }
- }*/
+    }*/
+
+    public synchronized void startSimulation() {
+
+        if (generatorThread != null && generatorThread.isAlive()) {
+            return;
+        }
+
+        flightGenerator = new FlightGenerator(this);
+
+        generatorThread = new Thread(flightGenerator);
+
+        generatorThread.start();
+    }
+
+    public synchronized void stopSimulation() {
+
+        if (flightGenerator != null) {
+            flightGenerator.stopGenerator();
+        }
+    }
+
     public synchronized void addFlight(Flight flight) {
+
         runwayQueue.add(flight);
 
         flightMap.put(
                 flight.getFlightid(),
                 flight
         );
-//System.out.println("Added : "+ flight.getFlightid());
-        System.out.println("Added : " + flight.getFlightid() + " | " + (flight.getPriority() == 1 ? "EMERGENCY" : "NORMAL"));
+
+        //System.out.println("Added : "+ flight.getFlightid());
+
+        System.out.println(
+                "Added : " +
+                        flight.getFlightid() +
+                        " | " +
+                        (flight.getPriority() == 1 ? "EMERGENCY" : "NORMAL")
+        );
     }
 
     //Highestpriprity landing
     public synchronized void processFlight() {
+
         if (runwayQueue.isEmpty()) {
             return;
         }
-        Flight flight = runwayQueue.poll();
-        flight.setstatus("COMPLETED");
-        completedFlights.add(flight);
-//System.out.println("Landed"+flight.getFlightid());
-        System.out.println("Landed : " + flight.getFlightid() + " | " + (flight.getPriority() == 1 ? "EMERGENCY" : "NORMAL")
-        );
 
+        Flight flight = runwayQueue.poll();
+
+        flight.setstatus("COMPLETED");
+
+        completedFlights.add(flight);
+
+        //System.out.println("Landed"+flight.getFlightid());
+
+        System.out.println(
+                "Landed : " +
+                        flight.getFlightid() +
+                        " | " +
+                        (flight.getPriority() == 1 ? "EMERGENCY" : "NORMAL")
+        );
     }
-        public PriorityQueue<Flight> getRunwayQueue() {
-            return runwayQueue;
-        }
-        public ArrayList<Flight> getCompletedFlights () {
-            return completedFlights;
-        }
+
+    public PriorityQueue<Flight> getRunwayQueue() {
+        return runwayQueue;
     }
+
+    public ArrayList<Flight> getCompletedFlights() {
+        return completedFlights;
+    }
+
+}
