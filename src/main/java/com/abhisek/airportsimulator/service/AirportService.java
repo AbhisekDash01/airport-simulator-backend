@@ -1,4 +1,8 @@
 package com.abhisek.airportsimulator.service;
+private Thread generatorThread;
+private FlightGenerator flightGenerator;
+
+import com.abhisek.airportsimulator.threads.FlightGenerator;
 
 //Added
 import com.abhisek.airportsimulator.model.Flight;
