@@ -61,6 +61,8 @@ public class AirportService {
 
         if (flightGenerator != null) {
             flightGenerator.stopGenerator();
+            generatorThread = null;
+            flightGenerator = null;
         }
     }
 

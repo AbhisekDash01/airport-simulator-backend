@@ -53,7 +53,7 @@ public class AirportController {
         Map<String, Integer> stats = new HashMap<>();
 
         stats.put("waiting", airportService.getRunwayQueue().size());
-        stats.put("Landed", airportService.getCompletedFlights().size());
+        stats.put("completed", airportService.getCompletedFlights().size());
         return stats;
     }
 }

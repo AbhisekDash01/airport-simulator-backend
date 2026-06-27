@@ -1,7 +1,6 @@
 package com.abhisek.airportsimulator;
 
 import com.abhisek.airportsimulator.service.AirportService;
-import com.abhisek.airportsimulator.threads.FlightGenerator;
 import com.abhisek.airportsimulator.threads.RunwayController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -24,13 +23,11 @@ public class AirportSimulatorApplication {
 
 		return args -> {
 
-			Thread generator =
-					new Thread(new FlightGenerator(airportService));
+			// Generator removed.
+			// It will be started using the /start API.
 
-			Thread runway =
-					new Thread(new RunwayController(airportService));
+			Thread runway = new Thread(new RunwayController(airportService));
 
-			generator.start();
 			runway.start();
 
 		};
